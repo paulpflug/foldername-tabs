@@ -14,6 +14,13 @@ module.exports = new class Main
       minimum: 0
 
   activate: ->
+    setTimeout (->
+      reloaderSettings = pkg:pkgName,folders:["lib","styles"]
+      try
+        reloader ?= require("atom-package-reloader")(reloaderSettings)
+      catch
+
+      ),500
     unless log?
       log = require("atom-simple-logger")(pkg:pkgName,nsp:"main")
       log "activating"
@@ -25,6 +32,7 @@ module.exports = new class Main
           @foldernameTabs = new FoldernameTabs
         catch
           log "loading core failed"
+          @foldernameTabs = new FoldernameTabs
       if atom.packages.isPackageActive("tabs")
         load()
       else
@@ -32,13 +40,7 @@ module.exports = new class Main
           if p.name == "tabs"
             load()
             @onceActivated.dispose()
-    setTimeout (->
-      reloaderSettings = pkg:pkgName,folders:["lib","styles"]
-      try
-        reloader ?= require("atom-package-reloader")(reloaderSettings)
-      catch
 
-      ),500
 
   deactivate: ->
     log "deactivating"

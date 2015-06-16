@@ -33,7 +33,7 @@ processAllTabs = (revert=false)->
   for paneItem in paneItems
     if paneItem.getPath?
       path = paneItem.getPath()
-      if paths.indexOf(path) == -1
+      if path? and paths.indexOf(path) == -1
         paths.push path
   log "found #{paths.length} different paths of
     total #{paneItems.length} paneItems",2
