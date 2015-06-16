@@ -1,0 +1,45 @@
+// The ui-variables file is provided by base themes provided by Atom.
+//
+// See https://github.com/atom/atom-dark-ui/blob/master/styles/ui-variables.less
+// for a full listing of what's available.
+@import "ui-variables";
+
+@file-name-top: 6px;
+@folder-name-top: -6px;
+.text-position(@offset) {
+  >span {
+    &.file {
+      top: @file-name-top - @offset;
+    }
+    &.folder{
+      top: @folder-name-top - @offset;
+    }
+  }
+}
+
+atom-workspace.theme-seti-ui div.foldername-tabs {
+  .text-position(-5px);
+}
+
+
+div.foldername-tabs {
+  margin-left:4px;
+  width: 100%;
+  display: inline-flex;
+
+  .text-position(0px);
+  >span {
+    position:absolute;
+    &.file {
+      color: @text-color;
+    }
+    &.folder {
+      color: @text-color-subtle;
+    }
+  }
+}
+
+atom-workspace.theme-isotope-ui ul.tab-bar>li.tab[is="tabs-tab"] {
+  background: @tab-background-color;
+  overflow: hidden;
+}

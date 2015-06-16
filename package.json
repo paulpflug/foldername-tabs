@@ -1,0 +1,21 @@
+{
+  "name": "foldername-tabs",
+  "main": "./lib/main",
+  "version": "0.0.1",
+  "description": "Adds foldernames to tabs..",
+  "keywords": [
+    "tabs",
+    "foldernames"
+  ],
+  "repository": "https://github.com/atom/foldername-tabs",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "dependencies": {
+    "atom-simple-logger":"~0.0.1"
+  },
+  "dev-dependencies": {
+    "atom-package-reloader":"~0.0.1"
+  }
+}
