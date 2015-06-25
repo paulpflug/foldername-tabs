@@ -28,11 +28,10 @@ module.exports = new class Main
       log "loading core"
       load = =>
         try
-          FoldernameTabs = require "./foldername-tabs"
+          FoldernameTabs ?= require "./#{pkgName}"
           @foldernameTabs = new FoldernameTabs
         catch
           log "loading core failed"
-          @foldernameTabs = new FoldernameTabs
       if atom.packages.isPackageActive("tabs")
         load()
       else

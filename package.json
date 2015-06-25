@@ -16,6 +16,6 @@
     "atom-simple-logger": "~0.0.1"
   },
   "dev-dependencies": {
-    "atom-package-reloader": "~0.0.1"
+    "atom-package-reloader": "~0.0.2"
   }
 }

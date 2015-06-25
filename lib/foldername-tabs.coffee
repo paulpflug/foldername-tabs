@@ -9,13 +9,16 @@ paths = {}
 parsePath = (path) ->
   result = {}
   relativePath = atom.project.relativizePath path
-  if relativePath?[0]
+  if relativePath?[0]?
     splitted = relativePath[1].split(sep)
     result.filename = splitted.pop()
+    projectPaths = atom.project.getPaths()
+    if projectPaths.length > 1
+      pathIdentifier += "#{projectPaths.indexOf(relativePath[0])+1}"
+      pathIdentifier += sep if splitted.length > 0
     last = ""
     if splitted.length > 0
       last = splitted.pop()
-    last += sep
     if splitted.length > 0
       result.foldername = splitted.map(-> return "...").join(sep)+sep+last
     else
@@ -54,12 +57,15 @@ processAllTabs = (revert=false)->
         tab.innerHTML = ""
         container = document.createElement("div")
         container.classList.add "foldername-tabs"
-        foldernameElement = document.createElement("span")
-        foldernameElement.classList.add "folder"
-        foldernameElement.innerHTML = paths[path].foldername
-        container.appendChild foldernameElement
+        if paths[path].foldername != ""
+          foldernameElement = document.createElement("span")
+          foldernameElement.classList.add "folder"
+          foldernameElement.innerHTML = paths[path].foldername
+          container.appendChild foldernameElement
         filenameElement = document.createElement("span")
         filenameElement.classList.add "file"
+        if paths[path].foldername == ""
+          filenameElement.classList.add "file-only"
         filenameElement.innerHTML = paths[path].filename
         container.appendChild filenameElement
         tab.appendChild container

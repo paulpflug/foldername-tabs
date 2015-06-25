@@ -11,12 +11,17 @@
     &.file {
       top: @file-name-top - @offset;
     }
+    &.file.file-only {
+      top: @file-name-top - 5px - @offset;
+    }
     &.folder{
       top: @folder-name-top - @offset;
     }
   }
 }
-
+atom-workspace.theme-seti-ui .tab-bar .tab div.title {
+  padding-left: 6px;
+}
 atom-workspace.theme-seti-ui div.foldername-tabs {
   .text-position(-5px);
 }
@@ -32,9 +37,11 @@ div.foldername-tabs {
     position:absolute;
     &.file {
       color: @text-color;
+      font-size: 1.025em;
     }
     &.folder {
-      color: @text-color-subtle;
+      color: @text-color;
+      font-size: 0.9em;
     }
   }
 }
