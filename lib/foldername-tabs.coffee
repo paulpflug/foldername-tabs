@@ -13,6 +13,7 @@ parsePath = (path) ->
     splitted = relativePath[1].split(sep)
     result.filename = splitted.pop()
     projectPaths = atom.project.getPaths()
+    pathIdentifier = ""
     if projectPaths.length > 1
       pathIdentifier += "#{projectPaths.indexOf(relativePath[0])+1}"
       pathIdentifier += sep if splitted.length > 0
@@ -20,9 +21,10 @@ parsePath = (path) ->
     if splitted.length > 0
       last = splitted.pop()
     if splitted.length > 0
-      result.foldername = splitted.map(-> return "...").join(sep)+sep+last
+      result.foldername = pathIdentifier+
+        splitted.map(-> return "...").join(sep)+sep+last
     else
-      result.foldername = last
+      result.foldername = pathIdentifier+last
   else
     splitted = path.split(sep)
     result.filename = splitted.pop()
