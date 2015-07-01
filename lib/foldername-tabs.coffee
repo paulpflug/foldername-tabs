@@ -6,15 +6,17 @@ log = require("atom-simple-logger")(pkg:"foldername-tabs",nsp:"core")
 {CompositeDisposable} = require 'atom'
 paths = {}
 
+# Parses a string path into an object containing the shortened foldername
+# and filename
 parsePath = (path) ->
   result = {}
   relativePath = atom.project.relativizePath path
-  if relativePath?[0]?
+  if relativePath?[0]? # within a project folder
     splitted = relativePath[1].split(sep)
     result.filename = splitted.pop()
     projectPaths = atom.project.getPaths()
     pathIdentifier = ""
-    if projectPaths.length > 1
+    if projectPaths.length > 1 # multi-folder project
       pathIdentifier += "#{projectPaths.indexOf(relativePath[0])+1}"
       pathIdentifier += sep if splitted.length > 0
     last = ""
@@ -25,9 +27,9 @@ parsePath = (path) ->
         splitted = splitted.splice(2)
       result.foldername = pathIdentifier+
         splitted.map(-> return "...").join(sep)+sep+last
-    else
+    else # in root folder of project
       result.foldername = pathIdentifier+last
-  else
+  else # outside of project
     splitted = path.split(sep)
     result.filename = splitted.pop()
     result.foldername = "#{sep}...#{sep}"+splitted.pop()+sep
@@ -37,21 +39,21 @@ processAllTabs = (revert=false)->
   log "processing all tabs, reverting:#{revert}"
   paths = []
   paneItems = atom.workspace.getPaneItems()
-  for paneItem in paneItems
+  for paneItem in paneItems # get the unique paths of all opened files
     if paneItem.getPath?
       path = paneItem.getPath()
       if path? and paths.indexOf(path) == -1
         paths.push path
   log "found #{paths.length} different paths of
     total #{paneItems.length} paneItems",2
-  for path in paths
+  for path in paths # process all opened paths
     tabs = atom.views.getView(atom.workspace).querySelectorAll "ul.tab-bar>
       li.tab[data-type='TextEditor']>
       div.title[data-path='#{path.replace(/\\/g,"\\\\")}']"
     log "found #{tabs.length} tabs for #{path}",2
-    for tab in tabs
+    for tab in tabs # if there are several tabs per path
       container = tab.querySelector "div.foldername-tabs"
-      if container? and revert
+      if container? and revert # removing all made changes
         log "reverting #{path}",2
         tab.removeChild container
         tab.innerHTML = path.split(sep).pop()

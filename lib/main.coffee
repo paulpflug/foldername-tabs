@@ -14,13 +14,14 @@ module.exports = new class Main
       minimum: 0
 
   activate: ->
-    setTimeout (->
-      reloaderSettings = pkg:pkgName,folders:["lib","styles"]
-      try
-        reloader ?= require("atom-package-reloader")(reloaderSettings)
-      catch
+    if atom.inDevMode()
+      setTimeout (->
+        reloaderSettings = pkg:pkgName,folders:["lib","styles"]
+        try
+          reloader ?= require("atom-package-reloader")(reloaderSettings)
+        catch
 
-      ),500
+        ),500
     unless log?
       log = require("atom-simple-logger")(pkg:pkgName,nsp:"main")
       log "activating"
@@ -32,6 +33,7 @@ module.exports = new class Main
           @foldernameTabs = new FoldernameTabs
         catch
           log "loading core failed"
+      # make sure it activates only after the tabs package
       if atom.packages.isPackageActive("tabs")
         load()
       else
