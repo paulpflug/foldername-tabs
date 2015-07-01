@@ -1,3 +1,5 @@
+## 0.1.3
+* Removed coloring of tabs
 ## 0.1.2
 * Added trim on long nesting folders - thx @averrin
 ## 0.1.1
