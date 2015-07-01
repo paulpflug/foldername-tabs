@@ -21,6 +21,8 @@ parsePath = (path) ->
     if splitted.length > 0
       last = splitted.pop()
     if splitted.length > 0
+      if splitted.length > 2
+        splitted = splitted.splice(2)
       result.foldername = pathIdentifier+
         splitted.map(-> return "...").join(sep)+sep+last
     else
