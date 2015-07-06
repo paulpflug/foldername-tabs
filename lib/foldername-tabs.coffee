@@ -6,6 +6,13 @@ log = require("atom-simple-logger")(pkg:"foldername-tabs",nsp:"core")
 {CompositeDisposable} = require 'atom'
 paths = {}
 
+makeShortcut = (path) ->
+  foldername = path.split('/')[path.split('/').length - 1]
+  if foldername.indexOf('-') == -1
+    return foldername.replace(/[aeyuio]/g, '').slice(0,3)
+  else
+    return foldername.split('-').map((w)-> return w[0]).join('-')
+
 # Parses a string path into an object containing the shortened foldername
 # and filename
 parsePath = (path) ->
@@ -17,7 +24,11 @@ parsePath = (path) ->
     projectPaths = atom.project.getPaths()
     pathIdentifier = ""
     if projectPaths.length > 1 # multi-folder project
-      pathIdentifier += "#{projectPaths.indexOf(relativePath[0])+1}"
+      useNums = false
+      if useNums
+        pathIdentifier += "#{projectPaths.indexOf(relativePath[0])+1}"
+      else
+        pathIdentifier += makeShortcut relativePath[0]
       pathIdentifier += sep if splitted.length > 0
     last = ""
     if splitted.length > 0
