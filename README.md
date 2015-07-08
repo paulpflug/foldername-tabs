@@ -25,8 +25,12 @@ folder: lastFolder # directly below root
 folder: ../../lastFolder # nested below root
 
 ## within your multi-folder project
-like in a single-folder project but each folder gets the number of the root folder prepended.
+# like in a single-folder project but each folder gets the number of the root
+# folder prepended. Can be set to use a short name instead of a number.
 ```
+### Where to set the short name
+
+![foldername-settings](https://cloud.githubusercontent.com/assets/1881921/8568995/600b0c7c-2573-11e5-8b6a-02afec61cc9c.png)
 
 ## Developing
 

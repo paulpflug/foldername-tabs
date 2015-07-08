@@ -1,17 +1,10 @@
 sep = require("path").sep
 log = require("atom-simple-logger")(pkg:"foldername-tabs",nsp:"core")
-
+abbreviate = require "abbreviate"
 
 
 {CompositeDisposable} = require 'atom'
 paths = {}
-
-makeShortcut = (path) ->
-  foldername = path.split('/')[path.split('/').length - 1]
-  if foldername.indexOf('-') == -1
-    return foldername.replace(/[aeyuio]/g, '').slice(0,3)
-  else
-    return foldername.split('-').map((w)-> return w[0]).join('-')
 
 # Parses a string path into an object containing the shortened foldername
 # and filename
@@ -24,11 +17,15 @@ parsePath = (path) ->
     projectPaths = atom.project.getPaths()
     pathIdentifier = ""
     if projectPaths.length > 1 # multi-folder project
-      useNums = false
-      if useNums
+      mfpIdent =  atom.config.get("foldername-tabs.mfpIdent")
+      if mfpIdent <= 0
         pathIdentifier += "#{projectPaths.indexOf(relativePath[0])+1}"
       else
-        pathIdentifier += makeShortcut relativePath[0]
+        pathIdentifier += abbreviate relativePath[0].split(sep).pop(), {
+          length: mfpIdent
+          keepSeparators: true
+          strict: false
+        }
       pathIdentifier += sep if splitted.length > 0
     last = ""
     if splitted.length > 0
@@ -87,6 +84,8 @@ processAllTabs = (revert=false)->
         container.appendChild filenameElement
         tab.appendChild container
   return !revert
+
+
 module.exports =
 class FoldernameTabs
   disposables: null
@@ -101,7 +100,12 @@ class FoldernameTabs
         setTimeout processAllTabs, 10
       @disposables.add atom.commands.add 'atom-workspace',
       'foldername-tabs:toggle': @toggle
+      @disposables.add atom.config.observe("foldername-tabs.mfpIdent", @repaint)
     log "loaded"
+  repaint: =>
+    if @processed
+      processAllTabs(true)
+      processAllTabs()
   toggle: =>
     @processed = processAllTabs(@processed)
   destroy: =>

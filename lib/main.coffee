@@ -8,6 +8,11 @@ module.exports = new class Main
   subscriptions: null
   foldernameTabs: null
   config:
+    mfpIdent:
+      title: "Multi-folder project identifier"
+      type: "integer"
+      default: "0"
+      description: "length of the identifier, if set to 0 will use numbers instead"
     debug:
       type: "integer"
       default: 0
