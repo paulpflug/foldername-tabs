@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "atom-simple-logger": "~0.0.1",
-    "abbreviate": "~0.0.2"
+    "abbreviate": "~0.0.3"
   },
   "dev-dependencies": {
     "atom-package-reloader": "~0.0.2"

@@ -13,7 +13,24 @@ parsePath = (path) ->
   relativePath = atom.project.relativizePath path
   if relativePath?[0]? # within a project folder
     splitted = relativePath[1].split(sep)
-    result.filename = splitted.pop()
+  else
+    splitted = path.split(sep)
+  result.filename = splitted.pop()
+  folderLength =  atom.config.get("foldername-tabs.folderLength")
+  splitted = splitted.map (string) ->
+    if folderLength > 0
+      return abbreviate string, {
+        length: folderLength
+        keepSeparators: true
+        strict: false
+      }
+    else
+      return string
+  if splitted.length > 0
+    lastFolder = splitted.pop()
+  else
+    lastFolder = ""
+  if relativePath?[0]? # within a project folder
     projectPaths = atom.project.getPaths()
     pathIdentifier = ""
     if projectPaths.length > 1 # multi-folder project
@@ -26,21 +43,34 @@ parsePath = (path) ->
           keepSeparators: true
           strict: false
         }
-      pathIdentifier += sep if splitted.length > 0
-    last = ""
-    if splitted.length > 0
-      last = splitted.pop()
-    if splitted.length > 0
-      if splitted.length > 2
-        splitted = splitted.splice(2)
-      result.foldername = pathIdentifier+
-        splitted.map(-> return "...").join(sep)+sep+last
-    else # in root folder of project
-      result.foldername = pathIdentifier+last
+      pathIdentifier += sep if lastFolder
+    result.foldername = pathIdentifier
   else # outside of project
-    splitted = path.split(sep)
-    result.filename = splitted.pop()
-    result.foldername = "#{sep}...#{sep}"+splitted.pop()+sep
+    splitted.shift() # remove empty entry
+    result.foldername = sep
+  if splitted.length > 0 # there are some folders
+    maxLength =  atom.config.get("foldername-tabs.maxLength")
+    if maxLength > 0 # there is a space limitation
+      maxLength -= lastFolder.length+4
+      maxLength -= mfpIdent+1 if relativePath?[0]?
+      if maxLength > 0 # there is room for more information
+        if relativePath?[0]? and splitted[0].length < maxLength # add first folder within project
+          maxLength -= splitted[0].length
+          result.foldername += splitted.shift()+ sep
+        remaining = ""
+        while splitted.length > 0 && maxLength > splitted[splitted.length-1].length+1
+          maxLength -= splitted[splitted.length-1].length+1
+          remaining = splitted.pop() + sep + remaining
+        remaining += sep if remaining.length > 0
+        if splitted.length > 0
+          result.foldername += "..."+sep+remaining
+        else
+          result.foldername += remaining
+      else # no space left
+        result.foldername += "..." + sep
+    else # no space limitation
+      result.foldername += splitted.join(sep) + sep
+  result.foldername += lastFolder
   return result
 
 processAllTabs = (revert=false)->
@@ -101,6 +131,8 @@ class FoldernameTabs
       @disposables.add atom.commands.add 'atom-workspace',
       'foldername-tabs:toggle': @toggle
       @disposables.add atom.config.observe("foldername-tabs.mfpIdent", @repaint)
+      @disposables.add atom.config.observe("foldername-tabs.folderLength", @repaint)
+      @disposables.add atom.config.observe("foldername-tabs.maxLength", @repaint)
     log "loaded"
   repaint: =>
     if @processed

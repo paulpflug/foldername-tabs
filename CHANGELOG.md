@@ -1,3 +1,5 @@
+## 0.1.5
+* Options to limit folder and path length #3
 ## 0.1.4
 * Added ability to use a short name instead of a number for
   multi folder projects - thx @averrin

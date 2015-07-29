@@ -8,11 +8,22 @@ module.exports = new class Main
   subscriptions: null
   foldernameTabs: null
   config:
+    maxLength:
+      title: "Maximum path length"
+      type: "integer"
+      default: "20"
+      description: "Allowed length of a path, if set to 0, will not shorten the path"
+
+    folderLength:
+      title: "Maximum folder length"
+      type: "integer"
+      default: "0"
+      description: "Allowed length of a single folder, if set to 0, will not shorten the folder"
     mfpIdent:
       title: "Multi-folder project identifier"
       type: "integer"
       default: "0"
-      description: "length of the identifier, if set to 0 will use numbers instead"
+      description: "length of the project identifier, if set to 0 will use numbers instead"
     debug:
       type: "integer"
       default: 0
