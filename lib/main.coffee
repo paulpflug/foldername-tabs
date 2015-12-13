@@ -47,8 +47,9 @@ module.exports = new class Main
         try
           FoldernameTabs ?= require "./#{pkgName}"
           @foldernameTabs = new FoldernameTabs
-        catch
+        catch e
           log "loading core failed"
+          log e
       # make sure it activates only after the tabs package
       if atom.packages.isPackageActive("tabs")
         load()

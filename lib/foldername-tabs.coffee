@@ -87,7 +87,7 @@ processAllTabs = (revert=false)->
   for path in paths # process all opened paths
     tabs = atom.views.getView(atom.workspace).querySelectorAll "ul.tab-bar>
       li.tab[data-type='TextEditor']>
-      div.title[data-path='#{path.replace(/\\/g,"\\\\")}']"
+      div.title[data-path=\"#{path.replace(/\\/g,"\\\\").replace(/\"/g,"\\\"")}\"]"
     log "found #{tabs.length} tabs for #{path}",2
     for tab in tabs # if there are several tabs per path
       container = tab.querySelector "div.foldername-tabs"
