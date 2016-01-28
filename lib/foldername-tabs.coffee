@@ -1,7 +1,6 @@
 sep = require("path").sep
-log = require("atom-simple-logger")(pkg:"foldername-tabs",nsp:"core")
 abbreviate = require "abbreviate"
-
+log = () ->
 
 {CompositeDisposable} = require 'atom'
 paths = {}
@@ -120,14 +119,22 @@ module.exports =
 class FoldernameTabs
   disposables: null
   processed: false
-  constructor:  ->
+  constructor: (logger) ->
+    log = logger "core"
     @processed = processAllTabs()
     unless @disposables?
       @disposables = new CompositeDisposable
-      @disposables.add atom.workspace.onDidAddTextEditor ->
-        setTimeout processAllTabs, 10
-      @disposables.add atom.workspace.onDidDestroyPaneItem ->
-        setTimeout processAllTabs, 10
+      @disposables.add atom.workspace.observePanes (pane) =>
+        disposables = new CompositeDisposable
+        disposable1 = pane.onDidAddItem -> setTimeout processAllTabs, 100
+        disposable3 = pane.onDidRemoveItem -> setTimeout processAllTabs, 10
+        disposable2 = pane.onDidDestroy disposables.dispose
+        disposables.add disposable1,disposable2#,disposable3
+        @disposables.add disposable1,disposable2#,disposable3
+      #@disposables.add atom.workspace.onDidAddPaneItem  ->
+      #  setTimeout processAllTabs, 10
+      #@disposables.add atom.workspace.onDidDestroyPaneItem ->
+      #  setTimeout processAllTabs, 10
       @disposables.add atom.commands.add 'atom-workspace',
       'foldername-tabs:toggle': @toggle
       @disposables.add atom.config.observe("foldername-tabs.mfpIdent", @repaint)

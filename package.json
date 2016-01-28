@@ -13,10 +13,18 @@
     "atom": ">=0.174.0 <2.0.0"
   },
   "dependencies": {
-    "atom-simple-logger": "~0.0.1",
     "abbreviate": "~0.0.3"
   },
-  "dev-dependencies": {
-    "atom-package-reloader": "~0.0.2"
+  "consumedServices": {
+    "autoreload": {
+      "versions": {
+        "^0.0.1": "consumeAutoreload"
+      }
+    },
+    "debug": {
+      "versions": {
+        "^0.0.1": "consumeDebug"
+      }
+    }
   }
 }

@@ -1,6 +1,4 @@
 FoldernameTabs = null
-log = null
-reloader = null
 
 pkgName = "foldername-tabs"
 
@@ -28,28 +26,21 @@ module.exports = new class Main
       type: "integer"
       default: 0
       minimum: 0
-
+  debugger: -> ->
+  debug: ->
+  consumeDebug: (debugSetup) =>
+    @debugger = debugSetup(pkg: pkgName)
+    @debug = @debugger "main"
+    @debug "debug service consumed", 2
+  consumeAutoreload: (reloader) =>
+    reloader(pkg:pkgName)
+    @debug "autoreload service consumed", 2
   activate: ->
-    if atom.inDevMode()
-      setTimeout (->
-        reloaderSettings = pkg:pkgName,folders:["lib","styles"]
-        try
-          reloader ?= require("atom-package-reloader")(reloaderSettings)
-        catch
-
-        ),500
-    unless log?
-      log = require("atom-simple-logger")(pkg:pkgName,nsp:"main")
-      log "activating"
     unless @foldernameTabs?
-      log "loading core"
+      @debug "loading core"
       load = =>
-        try
-          FoldernameTabs ?= require "./#{pkgName}"
-          @foldernameTabs = new FoldernameTabs
-        catch e
-          log "loading core failed"
-          log e
+        FoldernameTabs ?= require "./foldername-tabs"
+        @foldernameTabs = new FoldernameTabs(@debugger)
       # make sure it activates only after the tabs package
       if atom.packages.isPackageActive("tabs")
         load()
@@ -61,11 +52,8 @@ module.exports = new class Main
 
 
   deactivate: ->
-    log "deactivating"
+    @debug "deactivating"
     @onceActivated?.dispose?()
     @foldernameTabs?.destroy?()
     @foldernameTabs = null
-    log = null
     FoldernameTabs = null
-    reloader?.dispose()
-    reloader = null

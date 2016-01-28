@@ -41,3 +41,8 @@ Open it in atom in dev mode.
 For debugging set the debug field in package settings to the needed debug level.
 
 Should autoreload the package on changes in `lib` and `styles` folders
+
+
+## License
+Copyright (c) 2015 Paul Pflugradt
+Licensed under the MIT license.
