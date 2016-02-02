@@ -127,9 +127,10 @@ class FoldernameTabs
       @disposables.add atom.workspace.observePanes (pane) =>
         disposables = new CompositeDisposable
         disposable1 = pane.onDidAddItem -> setTimeout processAllTabs, 100
-        disposable3 = pane.onDidRemoveItem -> setTimeout processAllTabs, 10
-        disposable4 = pane.onDidMoveItem -> setTimeout processAllTabs, 10
-        disposable2 = pane.onDidDestroy disposables.dispose
+        disposable3 = pane.onDidRemoveItem -> setTimeout processAllTabs, 100
+        disposable4 = pane.onDidMoveItem -> setTimeout processAllTabs, 100
+        disposable2 = pane.onDidDestroy ->
+          disposables.dispose() if disposables.disposables?
         disposables.add disposable1,disposable2,disposable3,disposable4
         @disposables.add disposable1,disposable2,disposable3,disposable4
       #@disposables.add atom.workspace.onDidAddPaneItem  ->
