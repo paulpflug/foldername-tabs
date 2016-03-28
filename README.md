@@ -28,10 +28,22 @@ folder: ../../lastFolder # nested below root
 # like in a single-folder project but each folder gets the number of the root
 # folder prepended. Can be set to use a short name instead of a number.
 ```
-### Where to set the short name
+### Settings
 
 ![foldername-settings](https://cloud.githubusercontent.com/assets/1881921/8568995/600b0c7c-2573-11e5-8b6a-02afec61cc9c.png)
 
+Available settings:
+```coffee
+"Maximum path length":
+  default: 20
+  description: "Allowed length of a path, if set to 0, will not shorten the path"
+"Maximum folder length":
+  default: 0
+  description: "Allowed length of a single folder, if set to 0, will not shorten the folder"
+"Multi-folder project identifier":
+  default: 0
+  description: "length of the project identifier, if set to 0 will use numbers instead"
+```
 ## Developing
 
 Run `npm install` in the package directory.
