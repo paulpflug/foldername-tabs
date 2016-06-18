@@ -10,7 +10,7 @@
   "repository": "https://github.com/paulpflug/foldername-tabs",
   "license": "MIT",
   "engines": {
-    "atom": ">=1.5.0"
+    "atom": ">=1.8.0"
   },
   "dependencies": {
     "abbreviate": "~0.0.3"

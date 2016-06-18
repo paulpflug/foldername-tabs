@@ -4,35 +4,24 @@
 // for a full listing of what's available.
 @import "ui-variables";
 
-@file-name-top: 6px;
-@folder-name-top: -6px;
-.text-position(@offset) {
-  >span {
-    &.file {
-      top: @file-name-top - @offset;
-    }
-    &.file.file-only {
-      top: @file-name-top - 5px - @offset;
-    }
-    &.folder{
-      top: @folder-name-top - @offset;
-    }
-  }
-}
 atom-workspace.theme-seti-ui .tab-bar .tab div.title {
-  padding-left: 6px;
+  line-height: 2.5em;
+  margin-top: 0;
+  &:before {
+    margin-top: 4px;
+  }
 }
 
 
 
 div.foldername-tabs {
   margin-left:4px;
-  width: 100%;
   display: inline-flex;
-
-  .text-position(0px);
+  flex-direction: column;
+  position: relative;
+  top: -0.6em;
   >span {
-    position:absolute;
+    line-height: 1.2em;
     &.file {
       font-size: 1.025em;
     }
