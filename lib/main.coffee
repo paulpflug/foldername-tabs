@@ -33,7 +33,7 @@ module.exports = new class Main
     @debug = @debugger "main"
     @debug "debug service consumed", 2
   consumeAutoreload: (reloader) =>
-    reloader(pkg:pkgName)
+    reloader(pkg:pkgName,folders:["lib/","styles/"])
     @debug "autoreload service consumed", 2
   activate: ->
     unless @foldernameTabs?

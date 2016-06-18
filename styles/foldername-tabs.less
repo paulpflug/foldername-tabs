@@ -11,19 +11,27 @@ atom-workspace.theme-seti-ui .tab-bar .tab div.title {
     margin-top: 4px;
   }
 }
-
-
+atom-workspace.theme-one-dark-ui div.foldername-tabs>span.file-only,
+atom-workspace.theme-one-light-ui div.foldername-tabs>span.file-only {
+  top: 0.5em;
+}
 
 div.foldername-tabs {
-  margin-left:4px;
+  margin-left: 4px;
   display: inline-flex;
   flex-direction: column;
   position: relative;
   top: -0.6em;
+  justify-content: center;
+  height: 3em;
   >span {
     line-height: 1.2em;
     &.file {
       font-size: 1.025em;
+      &.file-only {
+        top: 0.2em;
+        position:relative;
+      }
     }
     &.folder {
       font-size: 0.9em;
