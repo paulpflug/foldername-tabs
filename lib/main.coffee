@@ -22,6 +22,11 @@ module.exports = new class Main
       type: "integer"
       default: "0"
       description: "length of the project identifier, if set to 0 will use numbers instead"
+    filenameFirst:
+      title: "Filename first"
+      type: "boolean"
+      default: false
+      description: "Puts the filename above the foldername"
     debug:
       type: "integer"
       default: 0

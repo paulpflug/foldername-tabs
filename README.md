@@ -43,6 +43,9 @@ Available settings:
 "Multi-folder project identifier":
   default: 0
   description: "length of the project identifier, if set to 0 will use numbers instead"
+"Filename first"
+  default: false
+  description: "Puts the filename above the foldername"
 ```
 ## Developing
 

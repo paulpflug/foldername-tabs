@@ -114,7 +114,11 @@ processAllTabs = (revert=false)->
           foldernameElement = document.createElement("span")
           foldernameElement.classList.add "folder"
           foldernameElement.innerHTML = paths[path].foldername
-          container.appendChild foldernameElement
+          filenameFirst = atom.config.get("foldername-tabs.filenameFirst")
+          if filenameFirst
+            container.appendChild foldernameElement
+          else
+            container.insertBefore foldernameElement, filenameElement
         tab.appendChild container
   return !revert
 
@@ -148,6 +152,7 @@ class FoldernameTabs
       @disposables.add atom.config.observe("foldername-tabs.mfpIdent", @repaint)
       @disposables.add atom.config.observe("foldername-tabs.folderLength", @repaint)
       @disposables.add atom.config.observe("foldername-tabs.maxLength", @repaint)
+      @disposables.add atom.config.observe("foldername-tabs.filenameFirst", @repaint)
     log "loaded"
   repaint: =>
     if @processed
