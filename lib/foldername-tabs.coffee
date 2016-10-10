@@ -104,17 +104,17 @@ processAllTabs = (revert=false)->
         tab.innerHTML = ""
         container = document.createElement("div")
         container.classList.add "foldername-tabs"
-        if paths[path].foldername != ""
-          foldernameElement = document.createElement("span")
-          foldernameElement.classList.add "folder"
-          foldernameElement.innerHTML = paths[path].foldername
-          container.appendChild foldernameElement
         filenameElement = document.createElement("span")
         filenameElement.classList.add "file"
         if paths[path].foldername == ""
           filenameElement.classList.add "file-only"
         filenameElement.innerHTML = paths[path].filename
         container.appendChild filenameElement
+        if paths[path].foldername != ""
+          foldernameElement = document.createElement("span")
+          foldernameElement.classList.add "folder"
+          foldernameElement.innerHTML = paths[path].foldername
+          container.appendChild foldernameElement
         tab.appendChild container
   return !revert
 
