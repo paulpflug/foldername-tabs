@@ -51,15 +51,19 @@ parsePath = (path) ->
     maxLength =  atom.config.get("foldername-tabs.maxLength")
     if maxLength > 0 # there is a space limitation
       maxLength -= lastFolder.length+4
-      maxLength -= mfpIdent+1 if relativePath?[0]?
+      maxLength -= mfpIdent+1 if relativePath?[0]? and mfpIdent
       if maxLength > 0 # there is room for more information
         if relativePath?[0]? and splitted[0].length < maxLength # add first folder within project
           maxLength -= splitted[0].length
           result.foldername += splitted.shift()+ sep
         remaining = ""
-        while splitted.length > 0 && maxLength > splitted[splitted.length-1].length+1
-          maxLength -= splitted[splitted.length-1].length+1
-          remaining = splitted.pop() + sep + remaining
+        while splitted.length > 0
+          current = splitted.pop()
+          if maxLength > current.length+1
+            maxLength -= current.length+1
+            remaining = current + sep + remaining
+          else
+            break
         remaining += sep if remaining.length > 0
         if splitted.length > 0
           result.foldername += "..."+sep+remaining
