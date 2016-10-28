@@ -11,7 +11,6 @@ module.exports = new class Main
       type: "integer"
       default: "20"
       description: "Allowed length of a path, if set to 0, will not shorten the path"
-
     folderLength:
       title: "Maximum folder length"
       type: "integer"
