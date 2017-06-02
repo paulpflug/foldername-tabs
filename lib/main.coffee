@@ -26,6 +26,11 @@ module.exports = new class Main
       type: "boolean"
       default: false
       description: "Puts the filename above the foldername"
+    plainFolder:
+      title: "Plain Folder name without changes"
+      type: "boolean"
+      default: false
+      description: "Overrides other settings and outputs entire folder name"
     debug:
       type: "integer"
       default: 0
