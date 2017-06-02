@@ -9,6 +9,11 @@ paths = {}
 # and filename
 parsePath = (path) ->
   result = {}
+  if atom.config.get("foldername-tabs.plainFolder")
+    splitted = path.split(sep)
+    result.filename = splitted.pop()
+    result.foldername = splitted.join(sep) + sep
+    return result
   relativePath = atom.project.relativizePath path
   if relativePath?[0]? # within a project folder
     splitted = relativePath[1].split(sep)
